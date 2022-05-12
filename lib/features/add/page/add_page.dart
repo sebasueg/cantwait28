@@ -1,5 +1,6 @@
 import 'package:cantwait28/features/add/cubit/add_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPage extends StatefulWidget {
@@ -25,13 +26,20 @@ class _AddPageState extends State<AddPage> {
           if (state.saved) {
             Navigator.of(context).pop();
           }
+          if (state.errorMessage.isNotEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         },
         child: BlocBuilder<AddCubit, AddState>(
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(state.saved ? 'TRUE' : 'FALSE'),
-                //title: const Text('Add new upcoming title'),
+                title: const Text('Add new upcoming title'),
                 actions: [
                   IconButton(
                     onPressed: _imageURL == null ||
